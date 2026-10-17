@@ -1,0 +1,117 @@
+<section class="workspace-shell" aria-label="Employee workspace catalog">
+  <header class="workspace-header">
+    <div class="workspace-header__copy">
+      <p class="eyebrow">Maheshwara MeeSeva</p>
+      <h1>SevaDesk</h1>
+    </div>
+  </header>
+
+  <div class="workspace-toolbar" aria-label="Catalog filters">
+    <div class="search-group">
+      <label class="control-label" for="service-search">Search services</label>
+      <div class="search-field" role="search">
+        <svg class="search-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+          <circle cx="8.8" cy="8.8" r="5.8"></circle>
+          <path d="m13.2 13.2 4 4"></path>
+        </svg>
+        <input
+          #searchInput
+          id="service-search"
+          type="search"
+          autocomplete="off"
+          inputmode="search"
+          [value]="query()"
+          (input)="query.set($any($event.target).value)"
+          placeholder="Search by service, exam, state or keyword"
+          aria-label="Search the employee service catalog"
+        />
+        @if (query()) {
+          <button type="button" class="clear-search" (click)="clearFilters()" aria-label="Clear search">
+            ×
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="control-label" for="category-filter">Category</label>
+      <div class="select-wrap">
+        <select id="category-filter" [value]="selectedCategory()" (change)="selectedCategory.set($any($event.target).value)">
+          @for (option of categoryOptions(); track option.id) {
+            <option [value]="option.id">{{ option.name }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    @if (hasActiveFilters()) {
+      <button type="button" class="reset-filters" (click)="clearFilters()">Reset filters</button>
+    }
+  </div>
+
+  @if (loading()) {
+    <div class="status-panel" aria-live="polite">Loading service catalog…</div>
+  }
+
+  @if (!loading() && errorMessage()) {
+    <div class="status-panel status-panel--error" role="alert">{{ errorMessage() }}</div>
+  }
+
+  @if (!loading() && !errorMessage()) {
+    @if (filteredGroups().length) {
+      @for (group of filteredGroups(); track group.category.id) {
+        <section class="catalog-group" aria-labelledby="category-{{ group.category.id }}">
+          <div class="catalog-group__header">
+            <h2 [id]="'category-' + group.category.id">{{ group.category.name }}</h2>
+            <span>{{ group.services.length }} service{{ group.services.length === 1 ? '' : 's' }}</span>
+          </div>
+
+          @if (group.category.description) {
+            <p class="catalog-group__description">{{ group.category.description }}</p>
+          }
+
+          <div class="service-grid">
+            @for (service of group.services; track service.id) {
+              @if (safeUrl(service); as safeLink) {
+                <a
+                  class="service-card"
+                  [href]="safeLink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  [attr.aria-label]="service.title + ' opens in a new tab'"
+                >
+                  <div class="service-card__image-wrap">
+                    <img
+                      [src]="getServiceImage(service)"
+                      [alt]="service.title + ' thumbnail'"
+                      loading="lazy"
+                      decoding="async"
+                      (error)="onImageError(service.id)"
+                    />
+                  </div>
+                  <div class="service-card__content">
+                    <div class="service-card__header">
+                      <h3>{{ service.title }}</h3>
+                      <span class="external-badge" aria-hidden="true">↗</span>
+                    </div>
+                    <p>{{ service.description }}</p>
+                    <div class="service-card__meta">
+                      <span>{{ service.state }}</span>
+                    </div>
+                  </div>
+                </a>
+              }
+            }
+          </div>
+        </section>
+      }
+    }
+
+    @if (!filteredGroups().length) {
+      <div class="empty-state" role="status" aria-live="polite">
+        <h2>No matching services</h2>
+        <p>Try a different keyword or category to restore the full directory.</p>
+      </div>
+    }
+  }
+</section>

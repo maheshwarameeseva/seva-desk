@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="title desc">
+  <title id="title">Ap Eapcet</title>
+  <desc id="desc">Service illustration for Ap Eapcet.</desc>
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#1ca66a"/>
+      <stop offset="100%" stop-color="#df7a30"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="#12211b"/>
+  <rect x="18" y="18" width="764" height="464" rx="32" fill="#173126" stroke="#2d4a3b"/>
+  <circle cx="255" cy="195" r="108" fill="url(#g)" opacity="0.95"/>
+  <path d="M215 248c21-46 65-73 114-73 70 0 124 55 124 122v77H170v-52c0-30 21-69 45-74Z" fill="#ebf5ef" opacity="0.9"/>
+  <circle cx="318" cy="165" r="48" fill="#dcefe5" opacity="0.9"/>
+  <rect x="440" y="135" width="220" height="44" rx="22" fill="#dcefe5" opacity="0.9"/>
+  <rect x="440" y="215" width="180" height="22" rx="11" fill="#dcefe5" opacity="0.5"/>
+  <rect x="440" y="255" width="210" height="22" rx="11" fill="#dcefe5" opacity="0.65"/>
+  <rect x="440" y="300" width="150" height="22" rx="11" fill="#dcefe5" opacity="0.5"/>
+  <text x="400" y="425" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="44" font-weight="700" fill="#ebf5ef">Ap Eapcet</text>
+</svg>
